@@ -124,8 +124,6 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-    compileOnly "io.github.kituin:ChatImageCode:${project.ci_code_version}"
     implementation fg.deobf("curse.maven:chatimage-818089:${chatimage_file_id}")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
