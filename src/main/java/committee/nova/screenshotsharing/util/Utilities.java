@@ -48,13 +48,13 @@ public class Utilities {
                     mc.execute(() -> mc.gui.getChat().addMessage(Component.translatable("screenshot.success", component)));
                 }
                 mc.execute(() -> {
-                    if (mc.getConnection() == null) return;
-                    mc.getConnection().sendChat(
-                            String.format(
-                                    "[[CICode,url=file:\\\\\\%s,name=%s]]",
-                                    target.getAbsolutePath(),
-                                    name == null ? I18n.get("name.screenshotsharing.screenshot") : name
-                            ));
+                    if (mc.player == null) return;
+                    final String msg = String.format(
+                            "[[CICode,url=file:\\\\\\%s,name=%s]]",
+                            target.getAbsolutePath(),
+                            name == null ? I18n.get("name.screenshotsharing.screenshot") : name
+                    );
+                    mc.player.chatSigned(msg, Component.literal(msg));
                 });
             } catch (Exception exception) {
                 mc.execute(() -> mc.gui.getChat().addMessage(Component.translatable("screenshot.failure", exception.getMessage())));
