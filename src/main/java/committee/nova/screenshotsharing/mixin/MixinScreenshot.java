@@ -22,6 +22,7 @@ public abstract class MixinScreenshot {
             method = "lambda$_grab$2",
             at = @At(
                     value = "INVOKE",
+                    shift = At.Shift.AFTER,
                     target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V",
                     ordinal = 0
             )
@@ -34,6 +35,7 @@ public abstract class MixinScreenshot {
             method = "lambda$_grab$2",
             at = @At(
                     value = "INVOKE",
+                    shift = At.Shift.AFTER,
                     target = "Ljava/util/function/Consumer;accept(Ljava/lang/Object;)V",
                     ordinal = 1
             )
