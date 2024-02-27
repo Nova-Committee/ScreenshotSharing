@@ -52,7 +52,7 @@ public abstract class MixinScreenshot {
                 .withStyle(s -> s.withClickEvent(new ClickEvent(
                         ClickEvent.Action.SUGGEST_COMMAND,
                         String.format(
-                                "/chatimage send %s file:\\\\\\%s",
+                                "/chatimage send \"%s\" file:\\\\\\%s",
                                 I18n.get("name.screenshotsharing.screenshot"),
                                 target.getAbsolutePath()
                         )
