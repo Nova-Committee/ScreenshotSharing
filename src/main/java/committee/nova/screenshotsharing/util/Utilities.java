@@ -67,7 +67,6 @@ public class Utilities {
     private static File getFile(File pGameDirectory) {
         String s = Util.getFilenameFormattedDateTime();
         int i = 1;
-
         while (true) {
             final File file1 = new File(pGameDirectory, s + (i == 1 ? "" : "_" + i) + ".png");
             if (!file1.exists()) return file1;
