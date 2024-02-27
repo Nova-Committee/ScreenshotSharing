@@ -1,6 +1,7 @@
 package committee.nova.screenshotsharing.util;
 
 import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -20,6 +21,16 @@ public class Utilities {
     }
 
     public static void sendScreenshot(String name) {
+        if (!RenderSystem.isOnRenderThread()) {
+            RenderSystem.recordRenderCall(() -> {
+                _sendScreenshot(name);
+            });
+        } else {
+            _sendScreenshot(name);
+        }
+    }
+
+    private static void _sendScreenshot(String name) {
         final Minecraft mc = Minecraft.getInstance();
         NativeImage nativeimage = takeScreenshot(mc.getMainRenderTarget());
         File file1 = new File(mc.gameDirectory, "screenshots");
