@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "screenshotsharing",
+  "version": "${version}",
+  "name": "screenshotsharing",
+  "description": "Take screenshot and share via ChatImage in one key!",
+  "authors": [
+    "Rinko1231",
+    "kitUIN",
+    "Tapio"
+  ],
+  "contact": {
+    "repo": "https://github.com/Nova-Committee/ScreenshotSharing"
+  },
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "committee.nova.screenshotsharing.ScreenshotSharing"
+    ]
+  },
+  "mixins": [
+    "screenshotsharing.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "*"
+  }
+}
