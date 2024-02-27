@@ -1,5 +1,6 @@
 package committee.nova.screenshotsharing.client.event;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
 import committee.nova.screenshotsharing.client.key.KeyMappings;
 import committee.nova.screenshotsharing.util.Utilities;
 import net.minecraft.commands.Commands;
@@ -21,8 +22,15 @@ public class ForgeClientEventHandler {
     public static void onRegClientCmd(RegisterClientCommandsEvent event) {
         event.getDispatcher().register(
                 Commands.literal("sharescreenshot")
+                        .then(
+                                Commands.argument("name", StringArgumentType.string())
+                                        .executes(ctx -> {
+                                            Utilities.sendScreenshot(StringArgumentType.getString(ctx, "name"));
+                                            return 1;
+                                        })
+                                        .requires(s -> true)
+                        )
                         .executes(ctx -> {
-
                             Utilities.sendScreenshot();
                             return 1;
                         })

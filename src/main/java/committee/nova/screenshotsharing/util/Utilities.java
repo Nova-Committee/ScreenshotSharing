@@ -16,6 +16,10 @@ import static net.minecraft.client.Screenshot.takeScreenshot;
 
 public class Utilities {
     public static void sendScreenshot() {
+        sendScreenshot(null);
+    }
+
+    public static void sendScreenshot(String name) {
         final Minecraft mc = Minecraft.getInstance();
         NativeImage nativeimage = takeScreenshot(mc.getMainRenderTarget());
         File file1 = new File(mc.gameDirectory, "screenshots");
@@ -43,8 +47,7 @@ public class Utilities {
                             String.format(
                                     "[[CICode,url=file:\\\\\\%s,name=%s]]",
                                     target.getAbsolutePath(),
-                                    I18n.get("name.screenshotsharing.screenshot"
-                                    )
+                                    name == null ? I18n.get("name.screenshotsharing.screenshot") : name
                             ));
                 });
             } catch (Exception exception) {
@@ -53,7 +56,6 @@ public class Utilities {
                 nativeimage.close();
             }
         });
-
     }
 
     private static File getFile(File pGameDirectory) {
@@ -65,7 +67,6 @@ public class Utilities {
             if (!file1.exists()) {
                 return file1;
             }
-
             ++i;
         }
     }
