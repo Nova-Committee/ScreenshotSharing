@@ -8,14 +8,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.ScreenshotEvent;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static net.minecraft.client.Screenshot.takeScreenshot;
 
 public class Utilities {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
     public static void sendScreenshot() {
         sendScreenshot(null);
     }
@@ -41,23 +47,22 @@ public class Utilities {
         Util.ioPool().execute(() -> {
             try {
                 nativeimage.writeToFile(target);
-                final Component component = Component.literal(file2.getName()).withStyle(ChatFormatting.UNDERLINE).withStyle((p_168608_) -> p_168608_.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, target.getAbsolutePath())));
+                final Component component = new TextComponent(file2.getName()).withStyle(ChatFormatting.UNDERLINE).withStyle((p_168608_) -> p_168608_.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, target.getAbsolutePath())));
                 if (event.getResultMessage() != null) {
                     mc.execute(() -> mc.gui.getChat().addMessage(event.getResultMessage()));
                 } else {
-                    mc.execute(() -> mc.gui.getChat().addMessage(Component.translatable("screenshot.success", component)));
+                    mc.execute(() -> mc.gui.getChat().addMessage(new TranslatableComponent("screenshot.success", component)));
                 }
                 mc.execute(() -> {
                     if (mc.player == null) return;
-                    final String msg = String.format(
+                    mc.player.chat(String.format(
                             "[[CICode,url=file:\\\\\\%s,name=%s]]",
                             target.getAbsolutePath(),
                             name == null ? I18n.get("name.screenshotsharing.screenshot") : name
-                    );
-                    mc.player.chatSigned(msg, Component.literal(msg));
+                    ));
                 });
             } catch (Exception exception) {
-                mc.execute(() -> mc.gui.getChat().addMessage(Component.translatable("screenshot.failure", exception.getMessage())));
+                mc.execute(() -> mc.gui.getChat().addMessage(new TranslatableComponent("screenshot.failure", exception.getMessage())));
             } finally {
                 nativeimage.close();
             }
@@ -65,7 +70,7 @@ public class Utilities {
     }
 
     private static File getFile(File pGameDirectory) {
-        String s = Util.getFilenameFormattedDateTime();
+        String s = DATE_FORMAT.format(new Date());
         int i = 1;
 
         while (true) {

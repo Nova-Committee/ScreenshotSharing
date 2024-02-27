@@ -6,6 +6,7 @@ import net.minecraft.client.Screenshot;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.client.event.ScreenshotEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -46,13 +47,12 @@ public abstract class MixinScreenshot {
 
     @Unique
     private static void screenshotsharing$appendShareButton(Consumer<Component> consumer, File target) {
-        consumer.accept(Component
-                .translatable("msg.screenshotsharing.share2chat")
+        consumer.accept(new TranslatableComponent("msg.screenshotsharing.share2chat")
                 .withStyle(ChatFormatting.GREEN)
                 .withStyle(s -> s.withClickEvent(new ClickEvent(
                         ClickEvent.Action.SUGGEST_COMMAND,
                         String.format(
-                                "/chatimage send %s file:\\\\\\%s",
+                                "/chatimage send \"%s\" file:\\\\\\%s",
                                 I18n.get("name.screenshotsharing.screenshot"),
                                 target.getAbsolutePath()
                         )

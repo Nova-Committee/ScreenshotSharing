@@ -9,7 +9,6 @@ displayName = "${mod_name}"
 # updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 displayURL = "https://github.com/Nova-Committee/ScreenshotSharing"
 authors = "${mod_authors}"
-displayTest = "IGNORE_ALL_VERSION"
 description = '''${mod_description}'''
 [[dependencies."${mod_id}"]]
 modId = "chatimage"
