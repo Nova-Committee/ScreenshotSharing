@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "committee.nova.screenshotsharing.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "screenshotsharing.refmap.json",
+  "client": [
+    "MixinScreenshot"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
