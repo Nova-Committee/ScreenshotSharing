@@ -1,16 +1,16 @@
 package committee.nova.screenshotsharing.client.key;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.KeyMapping;
+import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.client.util.InputMappings;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 
 public class KeyMappings {
-    public static final KeyMapping screenshotAndShare = new KeyMapping(
+    public static final KeyBinding screenshotAndShare = new KeyBinding(
             "key.screenshotsharing.screenshot_and_share",
             KeyConflictContext.UNIVERSAL,
             KeyModifier.NONE,
-            InputConstants.Type.KEYSYM,
+            InputMappings.Type.KEYSYM,
             -1,
             "key.screenshotsharing.category"
     );

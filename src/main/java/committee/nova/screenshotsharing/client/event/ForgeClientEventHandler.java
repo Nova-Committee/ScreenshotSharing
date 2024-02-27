@@ -3,12 +3,13 @@ package committee.nova.screenshotsharing.client.event;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import committee.nova.screenshotsharing.client.key.KeyMappings;
 import committee.nova.screenshotsharing.util.Utilities;
-import net.minecraft.commands.Commands;
+import net.minecraft.command.Commands;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterClientCommandsEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class ForgeClientEventHandler {
@@ -19,7 +20,8 @@ public class ForgeClientEventHandler {
     }
 
     @SubscribeEvent
-    public static void onRegClientCmd(RegisterClientCommandsEvent event) {
+    public static void onRegClientCmd(RegisterCommandsEvent event) {
+        if (FMLEnvironment.dist.isDedicatedServer()) return;
         event.getDispatcher().register(
                 Commands.literal("sharescreenshot")
                         .then(

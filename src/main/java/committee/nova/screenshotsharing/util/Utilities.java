@@ -1,15 +1,15 @@
 package committee.nova.screenshotsharing.util;
 
-import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.renderer.texture.NativeImage;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.Util;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.ScreenshotEvent;
 
@@ -18,7 +18,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static net.minecraft.client.Screenshot.takeScreenshot;
+import static net.minecraft.util.ScreenShotHelper.takeScreenshot;
+
 
 public class Utilities {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
@@ -36,7 +37,7 @@ public class Utilities {
 
     private static void _sendScreenshot(String name) {
         final Minecraft mc = Minecraft.getInstance();
-        final NativeImage nativeimage = takeScreenshot(mc.getMainRenderTarget());
+        final NativeImage nativeimage = takeScreenshot(mc.getWindow().getHeight(), mc.getWindow().getWidth(), mc.getMainRenderTarget());
         final File file1 = new File(mc.gameDirectory, "screenshots");
         file1.mkdir();
         final File file2 = getFile(file1);
@@ -47,11 +48,11 @@ public class Utilities {
         Util.ioPool().execute(() -> {
             try {
                 nativeimage.writeToFile(target);
-                final Component component = new TextComponent(file2.getName()).withStyle(ChatFormatting.UNDERLINE).withStyle((p_168608_) -> p_168608_.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, target.getAbsolutePath())));
+                final ITextComponent component = new StringTextComponent(file2.getName()).withStyle(TextFormatting.UNDERLINE).withStyle((p_168608_) -> p_168608_.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, target.getAbsolutePath())));
                 if (event.getResultMessage() != null) {
                     mc.execute(() -> mc.gui.getChat().addMessage(event.getResultMessage()));
                 } else {
-                    mc.execute(() -> mc.gui.getChat().addMessage(new TranslatableComponent("screenshot.success", component)));
+                    mc.execute(() -> mc.gui.getChat().addMessage(new TranslationTextComponent("screenshot.success", component)));
                 }
                 mc.execute(() -> {
                     if (mc.player == null) return;
@@ -62,7 +63,7 @@ public class Utilities {
                     ));
                 });
             } catch (Exception exception) {
-                mc.execute(() -> mc.gui.getChat().addMessage(new TranslatableComponent("screenshot.failure", exception.getMessage())));
+                mc.execute(() -> mc.gui.getChat().addMessage(new TranslationTextComponent("screenshot.failure", exception.getMessage())));
             } finally {
                 nativeimage.close();
             }
