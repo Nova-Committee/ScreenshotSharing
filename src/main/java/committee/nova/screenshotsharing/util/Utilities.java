@@ -22,9 +22,7 @@ public class Utilities {
 
     public static void sendScreenshot(String name) {
         if (!RenderSystem.isOnRenderThread()) {
-            RenderSystem.recordRenderCall(() -> {
-                _sendScreenshot(name);
-            });
+            RenderSystem.recordRenderCall(() -> _sendScreenshot(name));
         } else {
             _sendScreenshot(name);
         }
@@ -32,21 +30,18 @@ public class Utilities {
 
     private static void _sendScreenshot(String name) {
         final Minecraft mc = Minecraft.getInstance();
-        NativeImage nativeimage = takeScreenshot(mc.getMainRenderTarget());
-        File file1 = new File(mc.gameDirectory, "screenshots");
+        final NativeImage nativeimage = takeScreenshot(mc.getMainRenderTarget());
+        final File file1 = new File(mc.gameDirectory, "screenshots");
         file1.mkdir();
-        File file2 = getFile(file1);
+        final File file2 = getFile(file1);
 
-        ScreenshotEvent event = ForgeHooksClient.onScreenshot(nativeimage, file2);
-        if (event.isCanceled()) {
-            return;
-        }
+        final ScreenshotEvent event = ForgeHooksClient.onScreenshot(nativeimage, file2);
+        if (event.isCanceled()) return;
         final File target = event.getScreenshotFile();
-
         Util.ioPool().execute(() -> {
             try {
                 nativeimage.writeToFile(target);
-                Component component = Component.literal(file2.getName()).withStyle(ChatFormatting.UNDERLINE).withStyle((p_168608_) -> p_168608_.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, target.getAbsolutePath())));
+                final Component component = Component.literal(file2.getName()).withStyle(ChatFormatting.UNDERLINE).withStyle((p_168608_) -> p_168608_.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, target.getAbsolutePath())));
                 if (event.getResultMessage() != null) {
                     mc.execute(() -> mc.gui.getChat().addMessage(event.getResultMessage()));
                 } else {
@@ -74,10 +69,8 @@ public class Utilities {
         int i = 1;
 
         while (true) {
-            File file1 = new File(pGameDirectory, s + (i == 1 ? "" : "_" + i) + ".png");
-            if (!file1.exists()) {
-                return file1;
-            }
+            final File file1 = new File(pGameDirectory, s + (i == 1 ? "" : "_" + i) + ".png");
+            if (!file1.exists()) return file1;
             ++i;
         }
     }
