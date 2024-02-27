@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "screenshotsharing",
   "version": "${version}",
-  "name": "screenshotsharing",
+  "name": "ScreenshotSharing",
   "description": "Take screenshot and share via ChatImage in one key!",
   "authors": [
     "Rinko1231",
