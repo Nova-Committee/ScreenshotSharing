@@ -1,0 +1,20 @@
+modLoader = "javafml"
+loaderVersion = "${loader_version_range}"
+license = "${mod_license}"
+issueTrackerURL = "https://github.com/Nova-Committee/ScreenshotSharing/issues"
+[[mods]]
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+displayURL = "https://github.com/Nova-Committee/ScreenshotSharing"
+authors = "${mod_authors}"
+displayTest = "IGNORE_ALL_VERSION"
+[[mixins]]
+config = "screenshotsharing.mixins.json"
+description = '''${mod_description}'''
+[[dependencies."${mod_id}"]]
+modId = "chatimage"
+type = "required"
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
